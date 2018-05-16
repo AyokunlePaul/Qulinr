@@ -8,39 +8,41 @@
     </data>
 
     <RelativeLayout
+        android:background="@color/black"
         style="@style/LayoutMatchParent">
 
         <TextView
             style="@style/LayoutWrapContent"
             android:text="@string/duration_complete"
-            android:textStyle="bold"
-            android:padding="0dp"
             android:textSize="45sp"
+            fontPath ="fonts/montserrat/Montserrat_Black.otf"
             android:textColor="@color/white"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
+            android:layout_centerInParent="true"
             android:gravity="center"/>
 
         <Button
             style="@style/QulinrButton"
-            android:background="@drawable/round_orange_stroke_selector"
-            android:text="I NEED MORE TIME"
+            android:text="@string/food_is_ready"
+            android:padding="0dp"
+            android:width="@dimen/size_200"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="80dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/need_more_time"/>
-
-        <Button
-            style="@style/QulinrButton"
-            android:background="@drawable/round_orange_gradient"
-            android:text="FOOD IS READY"
-            android:textColor="@color/white"
-            android:textStyle="bold"
             android:onClick="@{OnClickListener::onFoodIsReadyClicked}"
             android:layout_centerHorizontal="true"
             android:layout_above="@id/need_more_time"/>
+
+        <Button
+            style="@style/QulinrButton"
+            android:padding="0dp"
+            android:text="@string/i_need_more_time"
+            android:textColor="@color/white"
+            android:width="@dimen/size_200"
+            android:layout_marginTop="@dimen/size_14"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/need_more_time"/>
+
+
 
     </RelativeLayout>
 </layout>
