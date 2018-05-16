@@ -8,8 +8,6 @@ public class OfflineStore {
 
     private Context context;
 
-
-
     @Inject
     public OfflineStore(Context context){
         this.context = context;
