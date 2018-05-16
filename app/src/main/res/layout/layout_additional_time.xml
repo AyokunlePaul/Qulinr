@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="OnClickListeners"
+            type="app.gokada.qulinr.screens.home.HomeActivity.HomeActivityViewClickListeners"/>
+    </data>
+
     <RelativeLayout
         style="@style/LayoutMatchParent">
 
@@ -14,7 +21,7 @@
                 android:text="How much"
                 android:padding="0dp"
                 android:textSize="40sp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/white"
                 android:layout_marginTop="70dp"
                 android:gravity="center"/>
 
@@ -24,7 +31,7 @@
                 android:textStyle="bold"
                 android:padding="0dp"
                 android:textSize="45sp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/white"
                 android:gravity="center"/>
 
         </LinearLayout>
@@ -48,7 +55,7 @@
                     android:padding="10dp"
                     android:textSize="15sp"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/white"
                     android:layout_centerInParent="true"/>
 
                 <ImageView
@@ -68,17 +75,15 @@
         </LinearLayout>
 
         <Button
-            style="@style/LayoutWrapContent"
-            android:layout_width="200dp"
-            android:background="@drawable/round_orange_stroke_selector"
+            style="@style/QulinrButton"
             android:text="CONTINUE COOKING"
-            android:textColor="@color/black"
-            android:textStyle="bold"
+            android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="80dp"
             android:layout_centerHorizontal="true"
-            android:id="@+id/continue_cooking"/>
+            android:id="@+id/continue_cooking"
+            android:onClick="@{OnClickListeners::onINeedMoreTimeClicked}"/>
 
     </RelativeLayout>
 </layout>

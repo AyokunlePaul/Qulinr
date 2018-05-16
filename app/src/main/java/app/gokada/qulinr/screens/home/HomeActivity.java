@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -35,6 +36,7 @@ public class HomeActivity extends CoreActivity {
     private TimeModel globalModel;
 
     private HomeActivityVM.OnMenuCreatedCallback menuCreatedCallback;
+    private HomeActivityVM.OnSlackNotifiedCallback slackNotifiedCallback;
 
     @Inject
     HomeActivityVM viewModel;
@@ -48,11 +50,17 @@ public class HomeActivity extends CoreActivity {
 
         initBinding();
         initCallback();
+
+        if (viewModel.getCachedToken() != null){
+            showCompletedLayout();
+        }
     }
 
     private void initBinding(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         binding.breakfastLink.setOnClickListener(new HomeActivityViewClickListeners());
+        binding.completedLink.setOnClickListener(new HomeActivityViewClickListeners());
+
         globalModel = new TimeModel();
         globalModel.time = "1hr";
         globalModel.timeInMills = 3600000;
@@ -62,10 +70,13 @@ public class HomeActivity extends CoreActivity {
     private void scheduleWork(TimeModel model){
         OneTimeWorkRequest.Builder builder = new OneTimeWorkRequest.Builder(FoodTimerWorkRequest.class);
         builder.setInitialDelay(model.timeInMills, TimeUnit.MILLISECONDS);
+
         WorkManager.getInstance().enqueue(builder.build());
-        String toastMessage = String.format("%s %s", "Reminder set for ", globalModel.time);
+        String toastMessage = String.format(Locale.ENGLISH,"%s %s", "Reminder set for ", model.time);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
-        Log.i("Worker", "Work successfully scheduled. ");
+
+        viewModel.cacheWorkId(builder.build().getId().toString());
+        Log.i("Worker", "Work successfully scheduled. ===== " + builder.build().getId());
     }
 
     private List<TimeModel> getModels(){
@@ -99,10 +110,55 @@ public class HomeActivity extends CoreActivity {
                     Toast.makeText(HomeActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     scheduleWork(globalModel);
+                    viewModel.cacheToken(response.getData().toString());
+
+                    Log.i("TOKEN", response.getData().toString());
                     Toast.makeText(HomeActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    showCompletedLayout();
                 }
             }
         };
+        slackNotifiedCallback = new HomeActivityVM.OnSlackNotifiedCallback() {
+            @Override
+            public void onSlackNotified(QulinrResponse response, Throwable throwable) {
+                if (response == null){
+                    Toast.makeText(HomeActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(HomeActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+                    deleteAll();
+                }
+            }
+        };
+    }
+
+    private void showCompletedLayout(){
+        hideAllViews();
+        binding.completedLink.getRoot().setVisibility(View.VISIBLE);
+    }
+
+    private void showHelloLayout(){
+        hideAllViews();
+        binding.breakfastLink.getRoot().setVisibility(View.VISIBLE);
+    }
+
+    private void showMoreTimeLayout(){
+        hideAllViews();
+        binding.additionalTime.getRoot().setVisibility(View.VISIBLE);
+    }
+
+    private void hideAllViews(){
+        binding.breakfastLink.getRoot().setVisibility(View.GONE);
+        binding.completedLink.getRoot().setVisibility(View.GONE);
+        binding.additionalTime.getRoot().setVisibility(View.GONE);
+    }
+
+    private void deleteAll(){
+        viewModel.deleteAll();
+    }
+
+    private void deleteWorkId(){
+        viewModel.deleteWorkId();
     }
 
     private void showDialog(){
@@ -146,6 +202,12 @@ public class HomeActivity extends CoreActivity {
         }
         public void onSelectTimeClicked(View view){
             showDialog();
+        }
+        public void onFoodIsReadyClicked(View view){
+            viewModel.notifySlack(slackNotifiedCallback);
+        }
+        public void onINeedMoreTimeClicked(View view){
+            showMoreTimeLayout();
         }
     }
 
