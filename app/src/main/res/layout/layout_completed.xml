@@ -8,7 +8,7 @@
     </data>
 
     <RelativeLayout
-        android:background="@color/black"
+
         style="@style/LayoutMatchParent">
 
         <TextView
