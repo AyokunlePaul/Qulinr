@@ -1,6 +1,8 @@
 package app.gokada.qulinr.screens.home;
 
+import android.app.ActivityManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -28,6 +30,7 @@ import app.gokada.qulinr.app_core.models.TimeModel;
 import app.gokada.qulinr.app_core.view.CoreActivity;
 import app.gokada.qulinr.databinding.ActivityHomeBinding;
 import app.gokada.qulinr.databinding.LayoutTimeSelectorBinding;
+import app.gokada.qulinr.service.QulinrStickyService;
 
 public class HomeActivity extends CoreActivity {
 
@@ -41,6 +44,9 @@ public class HomeActivity extends CoreActivity {
     @Inject
     HomeActivityVM viewModel;
 
+    private Intent serviceIntent;
+    private QulinrStickyService service;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +57,30 @@ public class HomeActivity extends CoreActivity {
         initBinding();
         initCallback();
 
-        if (viewModel.getCachedToken() != null){
-            showCompletedLayout();
+        service = new QulinrStickyService();
+
+        if (!isServiceRunning(service.getClass())){
+            serviceIntent = new Intent(this, service.getClass());
+            startService(serviceIntent);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(serviceIntent);
+    }
+
+    private boolean isServiceRunning(Class<?> clazz){
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningServiceInfo service: manager.getRunningServices(Integer.MAX_VALUE)){
+            if (clazz.getName().equals(service.service.getClassName())){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void initBinding(){
@@ -68,15 +95,17 @@ public class HomeActivity extends CoreActivity {
     }
 
     private void scheduleWork(TimeModel model){
-        OneTimeWorkRequest.Builder builder = new OneTimeWorkRequest.Builder(FoodTimerWorkRequest.class);
-        builder.setInitialDelay(model.timeInMills, TimeUnit.MILLISECONDS);
+//        OneTimeWorkRequest.Builder builder = new OneTimeWorkRequest.Builder(FoodTimerWorkRequest.class);
+//        builder.setInitialDelay(model.timeInMills, TimeUnit.MILLISECONDS);
+//
+//        WorkManager.getInstance().enqueue(builder.build());
 
-        WorkManager.getInstance().enqueue(builder.build());
         String toastMessage = String.format(Locale.ENGLISH,"%s %s", "Reminder set for ", model.time);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
 
-        viewModel.cacheWorkId(builder.build().getId().toString());
-        Log.i("Worker", "Work successfully scheduled. ===== " + builder.build().getId());
+        viewModel.cacheCounter(10000L);
+        service.startCounter(10000L);
+        Log.i("Worker", "Work successfully scheduled. ===== " + viewModel.getCachedLong());
     }
 
     private List<TimeModel> getModels(){

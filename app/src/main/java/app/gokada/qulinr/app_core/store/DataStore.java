@@ -30,8 +30,16 @@ public class DataStore {
         offlineStore.cacheWorkId(workId);
     }
 
-    public String getCachedWorkId(){
-        return offlineStore.getCachedWorkId();
+    public void cacheCounter(Long value){
+        offlineStore.cacheLong(value);
+    }
+
+    public Long getCachedCounter(){
+        return offlineStore.getCachedLongId();
+    }
+
+    public void deleteCountedValues(){
+        offlineStore.deleteCountedValue();
     }
 
     public void cacheToken(String token){

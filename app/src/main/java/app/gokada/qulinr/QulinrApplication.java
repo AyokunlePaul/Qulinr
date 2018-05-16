@@ -2,6 +2,7 @@ package app.gokada.qulinr;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Service;
 import android.content.Context;
 
 import app.gokada.qulinr.app_core.dagger.components.DaggerQulinrMainComponent;
@@ -34,6 +35,10 @@ public class QulinrApplication extends Application {
 
     public static QulinrApplication get(Activity activity){
         return (QulinrApplication) activity.getApplication();
+    }
+
+    public static QulinrApplication get(Service service){
+        return (QulinrApplication) service.getApplication();
     }
 
     private void initCalligraphy(){

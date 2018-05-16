@@ -1,5 +1,6 @@
 package app.gokada.qulinr.global;
 
+import app.gokada.qulinr.app_core.store.realmmodel.RealmCounter;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmToken;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmWorkId;
 
@@ -29,6 +30,17 @@ public class ModelMapper {
 
     public String mapRealmWorkIdToString(RealmWorkId workId){
         return workId.getWorkId();
+    }
+
+    public RealmCounter mapLongValueToRealmCounter(Long value){
+        RealmCounter workId = new RealmCounter();
+        workId.setValue(value);
+
+        return workId;
+    }
+
+    public Long mapRealmCounterToLongValue(RealmCounter workId){
+        return workId.getValue();
     }
 
 }

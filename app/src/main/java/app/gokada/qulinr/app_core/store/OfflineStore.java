@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import app.gokada.qulinr.app_core.store.localdatabase.RealmManager;
+import app.gokada.qulinr.app_core.store.realmmodel.RealmCounter;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmToken;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmWorkId;
 import app.gokada.qulinr.global.ModelMapper;
@@ -53,6 +54,10 @@ public class OfflineStore {
         realmManager.delete(workId);
     }
 
+    public void deleteCountedValue(){
+        realmManager.deleteAllOf(RealmCounter.class);
+    }
+
     public void cacheToken(String token){
         RealmToken realmToken = modelMapper.map(token);
         cache(realmToken);
@@ -76,6 +81,21 @@ public class OfflineStore {
         } else {
             return null;
         }
+    }
+
+    public Long getCachedLongId(){
+        List<RealmCounter> realmCounters = realmManager.findByClass(RealmCounter.class);
+
+        if (realmCounters.size() > 0){
+            return modelMapper.mapRealmCounterToLongValue(realmCounters.get(0));
+        } else {
+            return null;
+        }
+    }
+
+    public void cacheLong(Long value){
+        RealmCounter counter = modelMapper.mapLongValueToRealmCounter(value);
+        cache(counter);
     }
 
     public void cacheWorkId(String workId){

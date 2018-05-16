@@ -85,8 +85,16 @@ public class HomeActivityVM extends CoreVM {
         return dataStore.getCachedToken();
     }
 
-    public String getCachedWorkId(){
-        return dataStore.getCachedWorkId();
+    public void cacheCounter(Long value){
+        dataStore.cacheCounter(value);
+    }
+
+    public Long getCachedLong(){
+        return dataStore.getCachedCounter();
+    }
+
+    public void deleteCountedValues(){
+        dataStore.deleteCountedValues();
     }
 
     public interface OnMenuCreatedCallback {
