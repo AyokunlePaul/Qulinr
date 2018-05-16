@@ -27,17 +27,17 @@
                     style="@style/LayoutWrapContent"
                     android:text="How much"
                     android:padding="0dp"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:textColor="@color/white"
                     android:gravity="center"/>
 
                 <TextView
                     style="@style/LayoutWrapContent"
                     android:text="@string/more_time"
-                    android:layout_marginTop="@dimen/size_minus_20"
-                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/size_minus_10"
+                    fontPath = "fonts/montserrat/Montserrat_Bold.otf"
                     android:padding="0dp"
-                    android:textSize="45sp"
+                    android:textSize="30sp"
                     android:textColor="@color/white"
                     android:gravity="center"/>
 
@@ -49,7 +49,6 @@
                 android:layout_marginTop="30dp"
                 android:paddingLeft="70dp"
                 android:paddingRight="70dp"
-                android:layout_above="@id/continue_cooking"
                 >
 
                 <RelativeLayout
