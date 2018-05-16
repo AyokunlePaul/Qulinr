@@ -20,6 +20,11 @@
             android:id="@+id/completed_link"
             android:visibility="gone"/>
 
+        <include
+            layout="@layout/layout_additional_time"
+            android:id="@+id/additional_time"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
 </layout>

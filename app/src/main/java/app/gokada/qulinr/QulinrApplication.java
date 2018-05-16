@@ -8,6 +8,7 @@ import app.gokada.qulinr.app_core.dagger.components.DaggerQulinrMainComponent;
 import app.gokada.qulinr.app_core.dagger.components.QulinrMainComponent;
 import app.gokada.qulinr.app_core.dagger.modules.ContextModule;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class QulinrApplication extends Application {
@@ -27,6 +28,8 @@ public class QulinrApplication extends Application {
                 .build();
 
         initCalligraphy();
+
+        initRealm();
     }
 
     public static QulinrApplication get(Activity activity){
@@ -38,6 +41,18 @@ public class QulinrApplication extends Application {
             .setDefaultFontPath("fonts/montserrat/Montserrat_Regular.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
+    }
+
+    private void initRealm () {
+        Realm.init (this);
+
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder ()
+                .name ("QulinrRealm")
+                .deleteRealmIfMigrationNeeded ()
+                .schemaVersion (1)
+                .build ();
+
+        Realm.setDefaultConfiguration (realmConfiguration);
     }
 
     public static Context getQulinrApplicationContext(){
