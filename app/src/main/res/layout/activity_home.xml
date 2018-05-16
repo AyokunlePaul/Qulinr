@@ -6,6 +6,11 @@
         android:layout_height="match_parent">
 
         <include
+            layout="@layout/activity_bg"
+            android:id="@+id/bg_link"
+            android:visibility="visible"/>
+
+        <include
             layout="@layout/layout_breakfast"
             android:id="@+id/breakfast_link"
             android:visibility="visible"/>

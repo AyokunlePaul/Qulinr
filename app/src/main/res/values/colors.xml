@@ -2,12 +2,16 @@
 <resources>
     <color name="colorPrimary">#1E1B43</color>
     <color name="colorPrimaryDark">#1E1B43</color>
-    <color name="colorAccent">#F87D27</color>
+    <color name="colorAccent">#0F0E21</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="grey">#292929</color>
     <color name="orange">#F87D27</color>
     <color name="faint_orange">#fae4d5</color>
     <color name="faint_ash">#90f5f5f5</color>
     <color name="black">#000000</color>
 
+    <color name="light_purple">#403A78</color>
+    <color name="med_purple">#2f2a59</color>
 </resources>

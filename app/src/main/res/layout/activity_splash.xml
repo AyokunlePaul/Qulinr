@@ -19,13 +19,10 @@
             android:layout_centerInParent="true"/>
 
         <Button
-            style="@style/LayoutWrapContent"
+            style="@style/QulinrButton"
             android:layout_width="200dp"
-            android:background="@drawable/round_orange_stroke_selector"
             android:layout_alignParentBottom="true"
-            android:text="PROCEED"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            android:text="@string/proceed"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:onClick="@{OnClickListener::onProceedClicked}"/>

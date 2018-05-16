@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Qulinr</string>
     <string name="duration_complete">Duration\nComplete</string>
+    <string name="chuks">Chuks!</string>
+    <string name="hello">Hello</string>
+    <string name="what_s_for">What\'s for</string>
+    <string name="breakfast">Breakfast?</string>
+    <string name="proceed">PROCEED</string>
+    <string name="start_cooking">START COOKING</string>
 </resources>

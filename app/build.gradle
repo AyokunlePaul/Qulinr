@@ -63,4 +63,7 @@ dependencies {
     implementation "android.arch.work:work-runtime:1.0.0-alpha01"
 
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+
+    //Fonts
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 }

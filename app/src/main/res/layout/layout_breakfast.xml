@@ -17,27 +17,20 @@
         <RelativeLayout
             style="@style/LayoutMatchParent">
 
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/size_14"
+                android:layout_marginRight="@dimen/size_14"
+                android:background="@drawable/orange_background"
+                android:src="@drawable/ic_date_range"
+                android:scaleType="center"/>
+
             <LinearLayout
-                style="@style/LayoutMatchParent"
-                android:orientation="vertical"
-                android:layout_above="@id/start_cooking">
-
-                <RelativeLayout
-                    style="@style/LayoutWrapContent"
-                    android:padding="10dp"
-                    android:layout_gravity="end"
-                    android:layout_margin="3dp"
-                    android:id="@+id/calendar_icon"
-                    android:background="@drawable/faint_orange_background">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="@drawable/orange_background"
-                        android:src="@drawable/ic_date_range"
-                        android:scaleType="center"/>
-
-                </RelativeLayout>
+                style="@style/LayoutMatchWidth"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
 
                 <LinearLayout
                     style="@style/LayoutMatchWidth"
@@ -45,19 +38,21 @@
 
                     <TextView
                         style="@style/LayoutWrapContent"
-                        android:text="Hello"
+                        android:text="@string/hello"
                         android:padding="0dp"
                         android:textSize="40sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:layout_gravity="center_horizontal"/>
 
                     <TextView
                         style="@style/LayoutWrapContent"
-                        android:text="Chuks!"
+                        android:text="@string/chuks"
                         android:textStyle="bold"
+                        fontPath = "fonts/montserrat/Montserrat_Black.otf"
                         android:padding="0dp"
+                        android:layout_marginTop="@dimen/size_minus_20"
                         android:textSize="45sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:layout_gravity="center_horizontal"/>
 
                 </LinearLayout>
@@ -69,19 +64,21 @@
 
                     <TextView
                         style="@style/LayoutWrapContent"
-                        android:text="What's for"
+                        android:text="@string/what_s_for"
                         android:padding="0dp"
                         android:textSize="30sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:layout_gravity="center_horizontal"/>
 
                     <TextView
                         style="@style/LayoutWrapContent"
-                        android:text="Breakfast?"
+                        android:text="@string/breakfast"
+                        fontPath = "fonts/montserrat/Montserrat_Bold.otf"
+                        android:layout_marginTop="@dimen/size_minus_10"
                         android:textStyle="bold"
                         android:padding="0dp"
                         android:textSize="30sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:layout_gravity="center_horizontal"/>
 
                 </LinearLayout>
@@ -98,7 +95,7 @@
                         android:text="Rice, Beans and Beef Stew"
                         android:padding="10dp"
                         android:textSize="15sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:layout_gravity="center_horizontal"
                         android:id="@+id/food_menu"/>
 
@@ -127,7 +124,7 @@
                             android:padding="10dp"
                             android:textSize="15sp"
                             android:gravity="center"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/white"
                             android:layout_centerInParent="true"
                             android:id="@+id/time_estimate"/>
 
@@ -150,17 +147,18 @@
             </LinearLayout>
 
             <Button
-                style="@style/LayoutWrapContent"
+                style="@style/QulinrButton"
+                android:text="@string/start_cooking"
                 android:layout_width="200dp"
-                android:background="@drawable/round_orange_gradient"
-                android:text="START COOKING"
-                android:textColor="@color/white"
-                android:textStyle="bold"
+                android:paddingLeft="@dimen/size_20"
+                android:paddingRight="@dimen/size_20"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_centerHorizontal="true"
                 android:id="@+id/start_cooking"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
                 android:onClick="@{OnClickListener::onCreateMenuClicked}"/>
+
+
 
         </RelativeLayout>
 
