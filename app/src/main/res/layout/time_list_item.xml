@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="Time"
+            type="app.gokada.qulinr.app_core.models.TimeModel"/>
+    </data>
+    <RelativeLayout
+        style="@style/LayoutWrapContent"
+        android:layout_margin="10dp">
+        <TextView
+            style="@style/LayoutWrapContent"
+            android:padding="10dp"
+            android:text="@{Time.time}"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+</layout>

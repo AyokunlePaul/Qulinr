@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <data>
+        <variable
+            name="OnClickListener"
+            type="app.gokada.qulinr.screens.splash.SplashActivity.SplashActivityViewClickListener"/>
+    </data>
 
-    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/black_bg">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:src="@drawable/logo"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            style="@style/LayoutWrapContent"
+            android:layout_width="200dp"
+            android:background="@drawable/round_orange_stroke_selector"
+            android:layout_alignParentBottom="true"
+            android:text="PROCEED"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:onClick="@{OnClickListener::onProceedClicked}"/>
+
+    </RelativeLayout>
 
 </layout>

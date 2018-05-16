@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="Time"
+            type="app.gokada.qulinr.app_core.models.TimeModel"/>
+        <variable
+            name="OnClickListener"
+            type="app.gokada.qulinr.screens.home.HomeActivity.HomeActivityViewClickListeners"/>
+    </data>
+
+    <RelativeLayout
+        style="@style/LayoutMatchParent"
+        android:layout_marginTop="20dp">
+
+        <RelativeLayout
+            style="@style/LayoutMatchParent">
+
+            <LinearLayout
+                style="@style/LayoutMatchParent"
+                android:orientation="vertical"
+                android:layout_above="@id/start_cooking">
+
+                <RelativeLayout
+                    style="@style/LayoutWrapContent"
+                    android:padding="10dp"
+                    android:layout_gravity="end"
+                    android:layout_margin="3dp"
+                    android:id="@+id/calendar_icon"
+                    android:background="@drawable/faint_orange_background">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/orange_background"
+                        android:src="@drawable/ic_date_range"
+                        android:scaleType="center"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    style="@style/LayoutMatchWidth"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LayoutWrapContent"
+                        android:text="Hello"
+                        android:padding="0dp"
+                        android:textSize="40sp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        style="@style/LayoutWrapContent"
+                        android:text="Chuks!"
+                        android:textStyle="bold"
+                        android:padding="0dp"
+                        android:textSize="45sp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LayoutMatchWidth"
+                    android:orientation="vertical"
+                    android:layout_marginTop="50dp">
+
+                    <TextView
+                        style="@style/LayoutWrapContent"
+                        android:text="What's for"
+                        android:padding="0dp"
+                        android:textSize="30sp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        style="@style/LayoutWrapContent"
+                        android:text="Breakfast?"
+                        android:textStyle="bold"
+                        android:padding="0dp"
+                        android:textSize="30sp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LayoutMatchWidth"
+                    android:orientation="vertical"
+                    android:layout_marginTop="30dp"
+                    android:paddingLeft="70dp"
+                    android:paddingRight="70dp">
+
+                    <TextView
+                        style="@style/LayoutWrapContent"
+                        android:text="Rice, Beans and Beef Stew"
+                        android:padding="10dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"
+                        android:id="@+id/food_menu"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/orange"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/LayoutMatchWidth"
+                    android:orientation="vertical"
+                    android:layout_marginTop="30dp"
+                    android:paddingLeft="70dp"
+                    android:paddingRight="70dp"
+                    android:onClick="@{OnClickListener::onSelectTimeClicked}">
+
+                    <RelativeLayout
+                        style="@style/LayoutMatchWidth"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/LayoutWrapContent"
+                            android:text="@{Time.time}"
+                            android:padding="10dp"
+                            android:textSize="15sp"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_centerInParent="true"
+                            android:id="@+id/time_estimate"/>
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_drop_down"/>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/orange"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                style="@style/LayoutWrapContent"
+                android:layout_width="200dp"
+                android:background="@drawable/round_orange_gradient"
+                android:text="START COOKING"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/start_cooking"
+                android:onClick="@{OnClickListener::onCreateMenuClicked}"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>

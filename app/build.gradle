@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 27
@@ -14,13 +15,21 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASE_URL", "\"https://qulinr.herokuapp.com/\"")
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASE_URL", "\"https://qulinr.herokuapp.com/\"")
         }
     }
 
-    dataBinding{
+    dataBinding {
         enabled true
     }
 
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
@@ -41,6 +50,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 
     //Logging
     implementation 'com.jakewharton.timber:timber:4.5.1'
@@ -48,4 +58,9 @@ dependencies {
     //Arch Components
     implementation 'com.trello:rxlifecycle:0.6.1'
     implementation 'com.trello:rxlifecycle-components:0.6.1'
+
+    //WorkManager
+    implementation "android.arch.work:work-runtime:1.0.0-alpha01"
+
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 }

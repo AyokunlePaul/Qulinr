@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Qulinr</string>
+    <string name="duration_complete">Duration\nComplete</string>
 </resources>

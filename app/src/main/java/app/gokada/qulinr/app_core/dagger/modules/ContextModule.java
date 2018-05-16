@@ -1,8 +1,8 @@
-package app.gokada.qulinr.app_core.di.modules;
+package app.gokada.qulinr.app_core.dagger.modules;
 
 import android.content.Context;
 
-import app.gokada.qulinr.app_core.di.scopes.MainScope;
+import app.gokada.qulinr.app_core.dagger.scopes.MainScope;
 import dagger.Module;
 import dagger.Provides;
 

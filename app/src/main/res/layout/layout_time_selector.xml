@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        style="@style/LayoutMatchWidth">
+        <android.support.v7.widget.RecyclerView
+            style="@style/LayoutWrapContent"
+            android:layout_centerInParent="true"
+            android:id="@+id/time_list"/>
+    </RelativeLayout>
+</layout>

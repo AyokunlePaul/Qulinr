@@ -1,4 +1,4 @@
-package app.gokada.qulinr.app_core.di.scopes;
+package app.gokada.qulinr.app_core.dagger.scopes;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

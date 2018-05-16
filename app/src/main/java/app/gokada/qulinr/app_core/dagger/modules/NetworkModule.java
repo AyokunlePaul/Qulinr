@@ -1,19 +1,35 @@
-package app.gokada.qulinr.app_core.di.modules;
+package app.gokada.qulinr.app_core.dagger.modules;
 
 import android.content.Context;
 
 import java.io.File;
 
-import app.gokada.qulinr.app_core.di.scopes.MainScope;
+import app.gokada.qulinr.BuildConfig;
+import app.gokada.qulinr.app_core.dagger.scopes.MainScope;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
 @Module(includes = {ContextModule.class})
 public class NetworkModule {
+
+    @Provides
+    @MainScope
+    public Retrofit provideRetrofit(OkHttpClient client){
+        Retrofit.Builder builder = new Retrofit.Builder();
+        builder.addConverterFactory(GsonConverterFactory.create());
+        builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
+        builder.baseUrl(BuildConfig.BASE_URL);
+        builder.client(client);
+
+        return builder.build();
+    }
 
     @Provides
     @MainScope
