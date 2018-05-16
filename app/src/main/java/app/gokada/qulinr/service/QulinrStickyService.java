@@ -35,7 +35,7 @@ public class QulinrStickyService extends Service implements LifecycleOwner{
 
     private String NOTIFICATION_CHANNEL_ID = "Channel Id";
 
-    @Inject
+    //@Inject
     HomeActivityVM viewModel;
 
     private LifecycleRegistry registry;
@@ -79,6 +79,7 @@ public class QulinrStickyService extends Service implements LifecycleOwner{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        viewModel = QulinrApplication.get(this).viewModel;
         Log.i("onStartCommand", " ========= HERE");
         Log.i("onStartCommand", " ========= " + Boolean.toString(viewModel == null));
         if (timer != null){

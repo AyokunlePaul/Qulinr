@@ -54,6 +54,8 @@ public class HomeActivity extends CoreActivity {
         component = QulinrApplication.get(this).getComponent();
         component.inject(this);
 
+        QulinrApplication.get(this).viewModel = viewModel;
+
         initBinding();
         initCallback();
 

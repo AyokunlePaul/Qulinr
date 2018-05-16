@@ -8,6 +8,8 @@ import android.content.Context;
 import app.gokada.qulinr.app_core.dagger.components.DaggerQulinrMainComponent;
 import app.gokada.qulinr.app_core.dagger.components.QulinrMainComponent;
 import app.gokada.qulinr.app_core.dagger.modules.ContextModule;
+import app.gokada.qulinr.screens.home.HomeActivity;
+import app.gokada.qulinr.screens.home.HomeActivityVM;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -16,6 +18,8 @@ public class QulinrApplication extends Application {
 
     private QulinrMainComponent component;
     private static Context context;
+
+    public HomeActivityVM viewModel;
 
     @Override
     public void onCreate() {
@@ -29,7 +33,6 @@ public class QulinrApplication extends Application {
                 .build();
 
         initCalligraphy();
-
         initRealm();
     }
 
