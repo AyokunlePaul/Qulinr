@@ -53,8 +53,6 @@ public class HomeActivity extends CoreActivity {
     private Intent serviceIntent;
     private QulinrStickyService service;
 
-    int REQUEST_CODE = 1001;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,18 +112,18 @@ public class HomeActivity extends CoreActivity {
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
 
         viewModel.cacheCounter(10000L);
-
-        createAlarm(1000);
+        createAlarm(30000);
         //service.startCounter(10000L);
         Log.i("Worker", "Work successfully scheduled. ===== " + viewModel.getCachedLong());
     }
 
     private void createAlarm(int scanInterval){
+        QulinrApplication application = QulinrApplication.get(this);
+
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, application.createMediaNotification());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
 
         AlarmManager alarmManager  = (AlarmManager) getSystemService(ALARM_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){

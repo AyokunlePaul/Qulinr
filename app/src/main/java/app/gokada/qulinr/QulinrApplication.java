@@ -10,7 +10,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+
+import java.net.URI;
 
 import app.gokada.qulinr.app_core.dagger.components.DaggerQulinrMainComponent;
 import app.gokada.qulinr.app_core.dagger.components.QulinrMainComponent;
@@ -69,7 +72,7 @@ public class QulinrApplication extends Application {
                 .build());
     }
 
-    public void createMediaNotification(){
+    public Notification createMediaNotification(){
         Context context = QulinrApplication.getQulinrApplicationContext();
         NotificationCompat.Builder builder;
         builder = new NotificationCompat.Builder(context, NOTIFICATION_ID);
@@ -78,7 +81,9 @@ public class QulinrApplication extends Application {
         builder.setContentTitle("Qulinr");
         builder.setContentText("Is Food ready?");
         builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
-builder.setSound()
+
+        Uri uri = Uri.parse("android.resource://app.gokada.qulinr/raw/notification");
+        builder.setSound(uri);
 
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
@@ -98,8 +103,7 @@ builder.setSound()
             manager.createNotificationChannel(notificationChannel);
         }
 
-        Notification notification = builder.build();
-        manager.notify(23, notification);
+        return builder.build();
     }
 
     private void initRealm () {
