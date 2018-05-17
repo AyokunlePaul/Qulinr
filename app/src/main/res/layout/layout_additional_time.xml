@@ -3,6 +3,9 @@
 
     <data>
         <variable
+            name="Time"
+            type="app.gokada.qulinr.app_core.models.TimeModel"/>
+        <variable
             name="OnClickListeners"
             type="app.gokada.qulinr.screens.home.HomeActivity.HomeActivityViewClickListeners"/>
     </data>
@@ -49,7 +52,7 @@
                 android:layout_marginTop="30dp"
                 android:paddingLeft="70dp"
                 android:paddingRight="70dp"
-                >
+                android:onClick="@{OnClickListeners::onSelectTimeClicked}">
 
                 <RelativeLayout
                     style="@style/LayoutMatchWidth"
@@ -57,7 +60,7 @@
 
                     <TextView
                         style="@style/LayoutWrapContent"
-                        android:text="@string/_15mins"
+                        android:text="@{Time.time}"
                         android:padding="10dp"
                         android:textSize="15sp"
                         android:gravity="center"
@@ -91,7 +94,7 @@
             android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/continue_cooking"
-            android:onClick="@{OnClickListeners::onINeedMoreTimeClicked}"/>
+            android:onClick="@{OnClickListeners::onContinueCookingClicked}"/>
 
     </RelativeLayout>
 </layout>

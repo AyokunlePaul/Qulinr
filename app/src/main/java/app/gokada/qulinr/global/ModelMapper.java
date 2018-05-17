@@ -1,6 +1,6 @@
 package app.gokada.qulinr.global;
 
-import app.gokada.qulinr.app_core.store.realmmodel.RealmCounter;
+import app.gokada.qulinr.app_core.store.realmmodel.RealmFoodType;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmToken;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmWorkId;
 
@@ -32,15 +32,15 @@ public class ModelMapper {
         return workId.getWorkId();
     }
 
-    public RealmCounter mapLongValueToRealmCounter(Long value){
-        RealmCounter workId = new RealmCounter();
-        workId.setValue(value);
+    public RealmFoodType mapStringToRealmFoodType(String value){
+        RealmFoodType foodType = new RealmFoodType();
+        foodType.setValue(value);
 
-        return workId;
+        return foodType;
     }
 
-    public Long mapRealmCounterToLongValue(RealmCounter workId){
-        return workId.getValue();
+    public String mapRealmFoodTypeToString(RealmFoodType foodType){
+        return foodType.getValue();
     }
 
 }

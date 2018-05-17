@@ -1,6 +1,5 @@
 package app.gokada.qulinr.screens.home;
 
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
@@ -18,25 +17,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import app.gokada.qulinr.BuildConfig;
+
 import app.gokada.qulinr.QulinrApplication;
 import app.gokada.qulinr.R;
 import app.gokada.qulinr.app_core.api.QulinrResponse;
 import app.gokada.qulinr.app_core.api.models.CreateMenuRequest;
 import app.gokada.qulinr.app_core.dagger.components.QulinrMainComponent;
-import app.gokada.qulinr.app_core.manager.FoodTimerWorkRequest;
 import app.gokada.qulinr.app_core.models.TimeModel;
 import app.gokada.qulinr.app_core.view.CoreActivity;
 import app.gokada.qulinr.databinding.ActivityHomeBinding;
 import app.gokada.qulinr.databinding.LayoutTimeSelectorBinding;
 import app.gokada.qulinr.receiver.NotificationPublisher;
-import app.gokada.qulinr.service.QulinrStickyService;
 
 public class HomeActivity extends CoreActivity {
 
@@ -44,14 +38,13 @@ public class HomeActivity extends CoreActivity {
     private QulinrMainComponent component;
     private TimeModel globalModel;
 
+    private String foodType;
+
     private HomeActivityVM.OnMenuCreatedCallback menuCreatedCallback;
     private HomeActivityVM.OnSlackNotifiedCallback slackNotifiedCallback;
 
     @Inject
     HomeActivityVM viewModel;
-
-    private Intent serviceIntent;
-    private QulinrStickyService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,64 +53,44 @@ public class HomeActivity extends CoreActivity {
         component = QulinrApplication.get(this).getComponent();
         component.inject(this);
 
-        QulinrApplication.get(this).viewModel = viewModel;
-
         initBinding();
         initCallback();
-
-        service = new QulinrStickyService();
-
-        if (!isServiceRunning(service.getClass())){
-            serviceIntent = new Intent(this, service.getClass());
-            startService(serviceIntent);
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(serviceIntent);
-    }
-
-    private boolean isServiceRunning(Class<?> clazz){
-        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-
-        for (ActivityManager.RunningServiceInfo service: manager.getRunningServices(Integer.MAX_VALUE)){
-            if (clazz.getName().equals(service.service.getClassName())){
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private void initBinding(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         binding.breakfastLink.setOnClickListener(new HomeActivityViewClickListeners());
         binding.completedLink.setOnClickListener(new HomeActivityViewClickListeners());
+        binding.additionalTime.setOnClickListeners(new HomeActivityViewClickListeners());
 
         globalModel = new TimeModel();
         globalModel.time = "1hr";
         globalModel.timeInMills = 3600000;
         binding.breakfastLink.setTime(globalModel);
+
+        if (viewModel.getCachedToken() != null){
+            foodType = viewModel.getCachedFoodType();
+            Log.i("FOOD TYPE", " ========= " + foodType);
+            showCompletedLayout();
+            return;
+        }
+
+        showHelloLayout();
     }
 
     private void scheduleWork(TimeModel model){
-//        OneTimeWorkRequest.Builder builder = new OneTimeWorkRequest.Builder(FoodTimerWorkRequest.class);
-//        builder.setInitialDelay(model.timeInMills, TimeUnit.MILLISECONDS);
-//
-//        WorkManager.getInstance().enqueue(builder.build());
-
         String toastMessage = String.format(Locale.ENGLISH,"%s %s", "Reminder set for ", model.time);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
 
-        viewModel.cacheCounter(10000L);
-        createAlarm(30000);
-        //service.startCounter(10000L);
-        Log.i("Worker", "Work successfully scheduled. ===== " + viewModel.getCachedLong());
+        createAlarm(model.timeInMills);
     }
 
-    private void createAlarm(int scanInterval){
+    private void createAlarm(long scanInterval){
         QulinrApplication application = QulinrApplication.get(this);
 
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
@@ -161,10 +134,12 @@ public class HomeActivity extends CoreActivity {
             @Override
             public void onMenuCreated(QulinrResponse response, Throwable throwable) {
                 if (response == null){
+                    showHelloLayout();
                     Toast.makeText(HomeActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     scheduleWork(globalModel);
                     viewModel.cacheToken(response.getData().toString());
+                    viewModel.cacheFoodType(foodType);
 
                     Log.i("TOKEN", response.getData().toString());
                     Toast.makeText(HomeActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
@@ -177,10 +152,13 @@ public class HomeActivity extends CoreActivity {
             @Override
             public void onSlackNotified(QulinrResponse response, Throwable throwable) {
                 if (response == null){
+                    showCompletedLayout();
                     Toast.makeText(HomeActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(HomeActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
-                    deleteAll();
+                    viewModel.deleteAll();
+                    viewModel.cacheFoodType(foodType);
+                    showHelloLayout();
                 }
             }
         };
@@ -194,21 +172,38 @@ public class HomeActivity extends CoreActivity {
     private void showHelloLayout(){
         hideAllViews();
         binding.breakfastLink.getRoot().setVisibility(View.VISIBLE);
+        if (viewModel.getCachedFoodType() == null || viewModel.getCachedFoodType().equals("dinner")){
+            foodType = "breakfast";
+            binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
+            return;
+        }
+        if (viewModel.getCachedFoodType().equals("breakfast")){
+            foodType = "lunch";
+            binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
+            return;
+        }
+        if (viewModel.getCachedFoodType().equals("lunch")){
+            foodType = "dinner";
+            binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
+        }
     }
 
     private void showMoreTimeLayout(){
         hideAllViews();
+        binding.additionalTime.setTime(globalModel);
         binding.additionalTime.getRoot().setVisibility(View.VISIBLE);
+    }
+
+    private void showLoading(){
+        hideAllViews();
+        binding.loadingLink.getRoot().setVisibility(View.VISIBLE);
     }
 
     private void hideAllViews(){
         binding.breakfastLink.getRoot().setVisibility(View.GONE);
         binding.completedLink.getRoot().setVisibility(View.GONE);
         binding.additionalTime.getRoot().setVisibility(View.GONE);
-    }
-
-    private void deleteAll(){
-        viewModel.deleteAll();
+        binding.loadingLink.getRoot().setVisibility(View.GONE);
     }
 
     private void deleteWorkId(){
@@ -236,6 +231,7 @@ public class HomeActivity extends CoreActivity {
                     public void onTimeSelected(TimeModel model) {
                         globalModel = model;
                         binding.breakfastLink.setTime(globalModel);
+                        binding.additionalTime.setTime(globalModel);
                         dialog.dismiss();
                     }
                 });
@@ -248,9 +244,10 @@ public class HomeActivity extends CoreActivity {
 
     public class HomeActivityViewClickListeners{
         public void onCreateMenuClicked(View view){
+            showLoading();
             CreateMenuRequest menuRequest = new CreateMenuRequest();
             menuRequest.setFoodMenu(binding.breakfastLink.foodMenu.getText().toString());
-            menuRequest.setFoodType("breakfast");
+            menuRequest.setFoodType(foodType);
             menuRequest.setTimeEstimate(binding.breakfastLink.timeEstimate.getText().toString());
             viewModel.createMenu(menuRequest, menuCreatedCallback);
         }
@@ -258,10 +255,15 @@ public class HomeActivity extends CoreActivity {
             showDialog();
         }
         public void onFoodIsReadyClicked(View view){
+            showLoading();
             viewModel.notifySlack(slackNotifiedCallback);
         }
         public void onINeedMoreTimeClicked(View view){
             showMoreTimeLayout();
+        }
+        public void onContinueCookingClicked(View view){
+            createAlarm(globalModel.timeInMills);
+            showCompletedLayout();
         }
     }
 

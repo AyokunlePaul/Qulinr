@@ -2,14 +2,14 @@ package app.gokada.qulinr.app_core.store.realmmodel;
 
 import io.realm.RealmObject;
 
-public class RealmCounter extends RealmObject {
-    private Long value;
+public class RealmFoodType extends RealmObject {
+    private String value;
 
-    public Long getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(String value) {
         this.value = value;
     }
 }

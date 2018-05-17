@@ -3,6 +3,9 @@
 
     <data>
         <variable
+            name="Foodtype"
+            type="String"/>
+        <variable
             name="Time"
             type="app.gokada.qulinr.app_core.models.TimeModel"/>
         <variable
@@ -72,7 +75,7 @@
 
                     <TextView
                         style="@style/LayoutWrapContent"
-                        android:text="@string/breakfast"
+                        android:text="@{Foodtype.toString()}"
                         fontPath = "fonts/montserrat/Montserrat_Bold.otf"
                         android:layout_marginTop="@dimen/size_minus_10"
                         android:textStyle="bold"

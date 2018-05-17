@@ -1,14 +1,13 @@
 package app.gokada.qulinr.app_core.store;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import app.gokada.qulinr.app_core.store.localdatabase.RealmManager;
-import app.gokada.qulinr.app_core.store.realmmodel.RealmCounter;
+import app.gokada.qulinr.app_core.store.realmmodel.RealmFoodType;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmToken;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmWorkId;
 import app.gokada.qulinr.global.ModelMapper;
@@ -45,17 +44,13 @@ public class OfflineStore {
         realmManager.deleteAll();
     }
 
-//    public void deleteWorkId(Class<RealmWorkId> workIdClass){
-//        realmManager.deleteAllOf(workIdClass);
-//    }
-
     public void deleteWorkId(){
         RealmWorkId workId = modelMapper.mapIdToRealmWorkId(getCachedWorkId());
         realmManager.delete(workId);
     }
 
     public void deleteCountedValue(){
-        realmManager.deleteAllOf(RealmCounter.class);
+        realmManager.deleteAllOf(RealmFoodType.class);
     }
 
     public void cacheToken(String token){
@@ -83,18 +78,19 @@ public class OfflineStore {
         }
     }
 
-    public Long getCachedLongId(){
-        List<RealmCounter> realmCounters = realmManager.findByClass(RealmCounter.class);
+    public String getCachedFoodType(){
+        List<RealmFoodType> realmCounters = realmManager.findByClass(RealmFoodType.class);
 
         if (realmCounters.size() > 0){
-            return modelMapper.mapRealmCounterToLongValue(realmCounters.get(0));
+            return modelMapper.mapRealmFoodTypeToString(realmCounters.get(0));
         } else {
             return null;
         }
     }
 
-    public void cacheLong(Long value){
-        RealmCounter counter = modelMapper.mapLongValueToRealmCounter(value);
+    public void cacheFoodType(String foodType){
+        realmManager.deleteAllOf(RealmFoodType.class);
+        RealmFoodType counter = modelMapper.mapStringToRealmFoodType(foodType);
         cache(counter);
     }
 

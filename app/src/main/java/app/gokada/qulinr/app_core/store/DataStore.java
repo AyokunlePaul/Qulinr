@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import app.gokada.qulinr.app_core.api.QulinrResponse;
 import app.gokada.qulinr.app_core.api.models.CreateMenuRequest;
 import app.gokada.qulinr.app_core.api.models.NotifySlackRequest;
+import app.gokada.qulinr.app_core.store.realmmodel.RealmToken;
 import rx.Observable;
 
 public class DataStore {
@@ -30,12 +31,12 @@ public class DataStore {
         offlineStore.cacheWorkId(workId);
     }
 
-    public void cacheCounter(Long value){
-        offlineStore.cacheLong(value);
+    public void cacheFoodType(String foodType){
+        offlineStore.cacheFoodType(foodType);
     }
 
-    public Long getCachedCounter(){
-        return offlineStore.getCachedLongId();
+    public String getCachedFoodType(){
+        return offlineStore.getCachedFoodType();
     }
 
     public void deleteCountedValues(){
@@ -52,6 +53,10 @@ public class DataStore {
 
     public void deleteWorkId(){
         offlineStore.deleteWorkId();
+    }
+
+    public void deleteToken(){
+        offlineStore.deleteTypeOfClass(RealmToken.class);
     }
 
     public void deleteAll(){

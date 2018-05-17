@@ -24,18 +24,7 @@
         <activity android:name=".screens.home.HomeActivity"
             android:launchMode="singleTask"/>
 
-        <service android:name=".service.QulinrStickyService"
-            android:enabled="true"/>
-
         <receiver android:name=".receiver.NotificationPublisher" />
 
-        <receiver android:name=".receiver.RestartServiceReceiver"
-            android:exported="true"
-            android:enabled="true"
-            android:label="RestartServiceWhenStopped">
-            <intent-filter>
-                <action android:name="app.gokada.quilnr.RestartService"/>
-            </intent-filter>
-        </receiver>
     </application>
 </manifest>

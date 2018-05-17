@@ -40,7 +40,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
-            android:id="@+id/need_more_time"/>
+            android:id="@+id/need_more_time"
+            android:onClick="@{OnClickListener::onINeedMoreTimeClicked}"/>
 
 
 

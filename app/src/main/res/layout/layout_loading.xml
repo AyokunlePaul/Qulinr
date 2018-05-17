@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        style="@style/LayoutMatchParent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/faint_ash">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_width="@dimen/size_70"
+            android:layout_height="@dimen/size_70"
+            app:indicatorName="BallPulseIndicator"
+            app:indicatorColor="@color/white" />
+
+    </LinearLayout>
+</layout>

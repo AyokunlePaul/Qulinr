@@ -5,7 +5,6 @@ import app.gokada.qulinr.app_core.dagger.modules.NetworkModule;
 import app.gokada.qulinr.app_core.dagger.modules.RealmModules;
 import app.gokada.qulinr.app_core.dagger.scopes.MainScope;
 import app.gokada.qulinr.screens.home.HomeActivity;
-import app.gokada.qulinr.service.QulinrStickyService;
 import dagger.Component;
 
 @Component(modules = {NetworkModule.class, HomeActivityViewModelModule.class, RealmModules.class})
@@ -13,6 +12,5 @@ import dagger.Component;
 public interface QulinrMainComponent {
 
     void inject(HomeActivity homeActivity);
-    void inject(QulinrStickyService service);
 
 }
