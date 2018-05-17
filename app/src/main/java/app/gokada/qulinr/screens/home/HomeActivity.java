@@ -1,10 +1,14 @@
 package app.gokada.qulinr.screens.home;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
@@ -20,6 +24,7 @@ import javax.inject.Inject;
 
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+import app.gokada.qulinr.BuildConfig;
 import app.gokada.qulinr.QulinrApplication;
 import app.gokada.qulinr.R;
 import app.gokada.qulinr.app_core.api.QulinrResponse;
@@ -30,6 +35,7 @@ import app.gokada.qulinr.app_core.models.TimeModel;
 import app.gokada.qulinr.app_core.view.CoreActivity;
 import app.gokada.qulinr.databinding.ActivityHomeBinding;
 import app.gokada.qulinr.databinding.LayoutTimeSelectorBinding;
+import app.gokada.qulinr.receiver.NotificationPublisher;
 import app.gokada.qulinr.service.QulinrStickyService;
 
 public class HomeActivity extends CoreActivity {
@@ -106,8 +112,25 @@ public class HomeActivity extends CoreActivity {
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
 
         viewModel.cacheCounter(10000L);
-        service.startCounter(10000L);
+        createAlarm(30000);
+        //service.startCounter(10000L);
         Log.i("Worker", "Work successfully scheduled. ===== " + viewModel.getCachedLong());
+    }
+
+    private void createAlarm(int scanInterval){
+        QulinrApplication application = QulinrApplication.get(this);
+
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, application.createMediaNotification());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager  = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + scanInterval, pendingIntent);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + scanInterval, pendingIntent);
+        }
     }
 
     private List<TimeModel> getModels(){
