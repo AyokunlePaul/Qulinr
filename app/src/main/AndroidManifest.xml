@@ -24,5 +24,7 @@
         <activity android:name=".screens.home.HomeActivity"
             android:launchMode="singleTask"/>
 
+        <receiver android:name=".receiver.NotificationPublisher" />
+
     </application>
 </manifest>

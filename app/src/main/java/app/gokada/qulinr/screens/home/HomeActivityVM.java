@@ -1,7 +1,5 @@
 package app.gokada.qulinr.screens.home;
 
-import android.util.Log;
-
 import javax.inject.Inject;
 
 import app.gokada.qulinr.app_core.api.QulinrResponse;
@@ -66,6 +64,10 @@ public class HomeActivityVM extends CoreVM {
         dataStore.deleteAll();
     }
 
+    public void deleteToken(){
+        dataStore.deleteToken();
+    }
+
     public void cacheToken(String token){
         dataStore.cacheToken(token);
     }
@@ -85,8 +87,16 @@ public class HomeActivityVM extends CoreVM {
         return dataStore.getCachedToken();
     }
 
-    public String getCachedWorkId(){
-        return dataStore.getCachedWorkId();
+    public void cacheFoodType(String foodType){
+        dataStore.cacheFoodType(foodType);
+    }
+
+    public String getCachedFoodType(){
+        return dataStore.getCachedFoodType();
+    }
+
+    public void deleteCountedValues(){
+        dataStore.deleteCountedValues();
     }
 
     public interface OnMenuCreatedCallback {

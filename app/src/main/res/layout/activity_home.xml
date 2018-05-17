@@ -25,6 +25,11 @@
             android:id="@+id/additional_time"
             android:visibility="gone"/>
 
+        <include
+            layout="@layout/layout_loading"
+            android:id="@+id/loading_link"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
 </layout>

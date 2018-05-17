@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="Time"
             type="app.gokada.qulinr.app_core.models.TimeModel"/>
     </data>
-    <RelativeLayout
-        style="@style/LayoutWrapContent"
+    <android.support.v7.widget.CardView
+        style="@style/LayoutMatchWidth"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
         android:layout_margin="10dp">
-        <TextView
-            style="@style/LayoutWrapContent"
-            android:padding="10dp"
-            android:text="@{Time.time}"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/black"/>
-    </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/LayoutWrapContent">
+            <TextView
+                style="@style/LayoutWrapContent"
+                android:padding="10dp"
+                android:text="@{Time.time}"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </layout>

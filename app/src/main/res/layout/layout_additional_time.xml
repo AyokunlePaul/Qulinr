@@ -3,6 +3,9 @@
 
     <data>
         <variable
+            name="Time"
+            type="app.gokada.qulinr.app_core.models.TimeModel"/>
+        <variable
             name="OnClickListeners"
             type="app.gokada.qulinr.screens.home.HomeActivity.HomeActivityViewClickListeners"/>
     </data>
@@ -11,66 +14,74 @@
         style="@style/LayoutMatchParent">
 
         <LinearLayout
-            style="@style/LayoutWrapContent"
+            android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_centerHorizontal="true"
-            android:gravity="center">
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content">
 
-            <TextView
+            <LinearLayout
                 style="@style/LayoutWrapContent"
-                android:text="How much"
-                android:padding="0dp"
-                android:textSize="40sp"
-                android:textColor="@color/white"
-                android:layout_marginTop="70dp"
-                android:gravity="center"/>
-
-            <TextView
-                style="@style/LayoutWrapContent"
-                android:text="More time?"
-                android:textStyle="bold"
-                android:padding="0dp"
-                android:textSize="45sp"
-                android:textColor="@color/white"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/LayoutMatchWidth"
-            android:orientation="vertical"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="70dp"
-            android:paddingRight="70dp"
-            android:layout_above="@id/continue_cooking"
-            android:layout_marginBottom="20dp">
-
-            <RelativeLayout
-                style="@style/LayoutMatchWidth"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:gravity="center">
 
                 <TextView
                     style="@style/LayoutWrapContent"
-                    android:text="15mins"
-                    android:padding="10dp"
-                    android:textSize="15sp"
-                    android:gravity="center"
+                    android:text="How much"
+                    android:padding="0dp"
+                    android:textSize="30sp"
                     android:textColor="@color/white"
-                    android:layout_centerInParent="true"/>
+                    android:gravity="center"/>
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_drop_down"/>
+                <TextView
+                    style="@style/LayoutWrapContent"
+                    android:text="@string/more_time"
+                    android:layout_marginTop="@dimen/size_minus_10"
+                    fontPath = "fonts/montserrat/Montserrat_Bold.otf"
+                    android:padding="0dp"
+                    android:textSize="30sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/orange"/>
+            <LinearLayout
+                style="@style/LayoutMatchWidth"
+                android:orientation="vertical"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="70dp"
+                android:paddingRight="70dp"
+                android:onClick="@{OnClickListeners::onSelectTimeClicked}">
+
+                <RelativeLayout
+                    style="@style/LayoutMatchWidth"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LayoutWrapContent"
+                        android:text="@{Time.time}"
+                        android:padding="10dp"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:layout_centerInParent="true"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow_drop_down"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/orange"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -80,10 +91,10 @@
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/continue_cooking"
-            android:onClick="@{OnClickListeners::onINeedMoreTimeClicked}"/>
+            android:onClick="@{OnClickListeners::onContinueCookingClicked}"/>
 
     </RelativeLayout>
 </layout>

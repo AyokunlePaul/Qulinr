@@ -9,12 +9,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/white_bg">
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/activity_bg_colour"
+            android:id="@+id/bg_link" />
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/size_70"
             android:src="@drawable/logo_black"
             android:layout_centerInParent="true"/>
 
