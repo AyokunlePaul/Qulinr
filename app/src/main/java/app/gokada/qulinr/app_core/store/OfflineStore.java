@@ -18,9 +18,9 @@ import io.realm.RealmObject;
 public class OfflineStore {
 
     private Context context;
-
     RealmManager realmManager;
     ModelMapper modelMapper;
+
 
     @Inject
     public OfflineStore(RealmManager realmManager, Context context, ModelMapper modelMapper){
