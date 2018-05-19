@@ -1,6 +1,8 @@
 package app.gokada.qulinr.global;
 
+import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmFoodType;
+import app.gokada.qulinr.app_core.store.realmmodel.RealmTimeTable;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmToken;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmWorkId;
 
@@ -41,6 +43,24 @@ public class ModelMapper {
 
     public String mapRealmFoodTypeToString(RealmFoodType foodType){
         return foodType.getValue();
+    }
+
+    public TimeTableResponse mapRealmTimetableToTimetableResponse(RealmTimeTable timeTable){
+        TimeTableResponse response = new TimeTableResponse();
+        response.setBreakfast(timeTable.getBreakfast());
+        response.setLunch(timeTable.getLunch());
+        response.setDinner(timeTable.getDinner());
+
+        return response;
+    }
+
+    public RealmTimeTable mapTimeTableResponseToRealmTimeTable(TimeTableResponse response){
+        RealmTimeTable timeTable = new RealmTimeTable();
+        timeTable.setBreakfast(response.getBreakfast());
+        timeTable.setLunch(response.getLunch());
+        timeTable.setDinner(response.getDinner());
+
+        return timeTable;
     }
 
 }

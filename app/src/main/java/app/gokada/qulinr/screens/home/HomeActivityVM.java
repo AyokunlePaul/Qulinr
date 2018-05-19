@@ -1,10 +1,13 @@
 package app.gokada.qulinr.screens.home;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 
 import app.gokada.qulinr.app_core.api.QulinrResponse;
 import app.gokada.qulinr.app_core.api.models.CreateMenuRequest;
 import app.gokada.qulinr.app_core.api.models.NotifySlackRequest;
+import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import app.gokada.qulinr.app_core.store.DataStore;
 import app.gokada.qulinr.app_core.view.CoreVM;
 import rx.Subscriber;
@@ -95,8 +98,8 @@ public class HomeActivityVM extends CoreVM {
         return dataStore.getCachedFoodType();
     }
 
-    public void deleteCountedValues(){
-        dataStore.deleteCountedValues();
+    public TimeTableResponse getCachedTimetable(){
+        return dataStore.getCachedTimetable();
     }
 
     public interface OnMenuCreatedCallback {
@@ -106,5 +109,4 @@ public class HomeActivityVM extends CoreVM {
     public interface OnSlackNotifiedCallback {
         void onSlackNotified(QulinrResponse response, Throwable throwable);
     }
-
 }

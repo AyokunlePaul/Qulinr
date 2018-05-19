@@ -6,8 +6,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import app.gokada.qulinr.app_core.store.localdatabase.RealmManager;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmFoodType;
+import app.gokada.qulinr.app_core.store.realmmodel.RealmTimeTable;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmToken;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmWorkId;
 import app.gokada.qulinr.global.ModelMapper;
@@ -16,9 +18,9 @@ import io.realm.RealmObject;
 public class OfflineStore {
 
     private Context context;
-
     RealmManager realmManager;
     ModelMapper modelMapper;
+
 
     @Inject
     public OfflineStore(RealmManager realmManager, Context context, ModelMapper modelMapper){
@@ -88,6 +90,15 @@ public class OfflineStore {
         }
     }
 
+    public TimeTableResponse getCachedTimetable(){
+        List<RealmTimeTable> realmTimeTables = realmManager.findByClass(RealmTimeTable.class);
+
+        if (realmTimeTables.size() > 0){
+            return modelMapper.mapRealmTimetableToTimetableResponse(realmTimeTables.get(0));
+        }
+        return null;
+    }
+
     public void cacheFoodType(String foodType){
         realmManager.deleteAllOf(RealmFoodType.class);
         RealmFoodType counter = modelMapper.mapStringToRealmFoodType(foodType);
@@ -97,6 +108,11 @@ public class OfflineStore {
     public void cacheWorkId(String workId){
         RealmWorkId realmWorkId = modelMapper.mapIdToRealmWorkId(workId);
         cache(realmWorkId);
+    }
+
+    public void cacheTimetable(TimeTableResponse response){
+        RealmTimeTable table = modelMapper.mapTimeTableResponseToRealmTimeTable(response);
+        cache(table);
     }
 
 }
