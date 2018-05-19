@@ -25,6 +25,7 @@ import app.gokada.qulinr.QulinrApplication;
 import app.gokada.qulinr.R;
 import app.gokada.qulinr.app_core.api.QulinrResponse;
 import app.gokada.qulinr.app_core.api.models.CreateMenuRequest;
+import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import app.gokada.qulinr.app_core.dagger.components.QulinrMainComponent;
 import app.gokada.qulinr.app_core.models.TimeModel;
 import app.gokada.qulinr.app_core.view.CoreActivity;
@@ -46,12 +47,16 @@ public class HomeActivity extends CoreActivity {
     @Inject
     HomeActivityVM viewModel;
 
+    private TimeTableResponse timeTable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         component = QulinrApplication.get(this).getComponent();
         component.inject(this);
+
+        timeTable = viewModel.getCachedTimetable();
 
         initBinding();
         initCallback();
@@ -174,16 +179,19 @@ public class HomeActivity extends CoreActivity {
         binding.breakfastLink.getRoot().setVisibility(View.VISIBLE);
         if (viewModel.getCachedFoodType() == null || viewModel.getCachedFoodType().equals("dinner")){
             foodType = "breakfast";
+            binding.breakfastLink.setTimetable(timeTable.getBreakfast());
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
             return;
         }
         if (viewModel.getCachedFoodType().equals("breakfast")){
             foodType = "lunch";
+            binding.breakfastLink.setTimetable(timeTable.getLunch());
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
             return;
         }
         if (viewModel.getCachedFoodType().equals("lunch")){
             foodType = "dinner";
+            binding.breakfastLink.setTimetable(timeTable.getDinner());
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
         }
     }

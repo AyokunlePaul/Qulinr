@@ -3,6 +3,9 @@
 
     <data>
         <variable
+            name="Timetable"
+            type="String"/>
+        <variable
             name="Foodtype"
             type="String"/>
         <variable
@@ -95,7 +98,7 @@
 
                     <TextView
                         style="@style/LayoutWrapContent"
-                        android:text="Rice, Beans and Beef Stew"
+                        android:text="@{Timetable}"
                         android:padding="10dp"
                         android:textSize="15sp"
                         android:textColor="@color/white"
