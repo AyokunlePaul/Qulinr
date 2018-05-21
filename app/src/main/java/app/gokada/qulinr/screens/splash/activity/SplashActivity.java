@@ -48,8 +48,11 @@ public class SplashActivity extends CoreActivity {
 
         initCallback();
 
-        getTimetableForToday();
-        getFullTimeTable();
+        if (splashVM.getCachedTimeTableResponse() == null){
+            getTimetableForToday();
+        } else {
+            binding.setEnable(true);
+        }
 
         overridePendingTransition(android.R.transition.slide_left, android.R.transition.slide_right);
     }
@@ -65,12 +68,18 @@ public class SplashActivity extends CoreActivity {
             public void onTimetableRetrieved(TimeTableResponse response) {
                 hasFetchedTimetable = true;
                 splashVM.cacheTimetable(response);
+                if (splashVM.getCachedFullTimeTableResponse() == null){
+                    getFullTimeTable();
+                } else {
+                    binding.loadingLink.getRoot().setVisibility(View.GONE);
+                    binding.setEnable(hasFetchedTimetable);
+                }
             }
 
             @Override
             public void onErrorOccurred(Throwable throwable) {
                 hasFetchedTimetable = false;
-
+                binding.loadingLink.getRoot().setVisibility(View.GONE);
                 final Snackbar snackbar = Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_INDEFINITE);
                 Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
                 TextView text = layout.findViewById(android.support.design.R.id.snackbar_text);
@@ -94,11 +103,14 @@ public class SplashActivity extends CoreActivity {
             public void onFullTimeTableRetrieved(FullTimeTableResponse response) {
                 splashVM.cacheFullTimeTable(response);
                 hasFetchedFullTimetable = true;
+                binding.loadingLink.getRoot().setVisibility(View.GONE);
+                binding.setEnable(hasFetchedTimetable && hasFetchedFullTimetable);
             }
 
             @Override
             public void onErrorOccurred(Throwable throwable) {
                 hasFetchedFullTimetable = false;
+                binding.loadingLink.getRoot().setVisibility(View.GONE);
                 final Snackbar snackbar = Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_INDEFINITE);
                 Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
                 TextView text = layout.findViewById(android.support.design.R.id.snackbar_text);
@@ -119,6 +131,7 @@ public class SplashActivity extends CoreActivity {
     }
 
     private void getTimetableForToday(){
+        binding.loadingLink.getRoot().setVisibility(View.VISIBLE);
         splashVM.getTimetableForToday(timetableRetrievedCallback);
     }
 

@@ -14,17 +14,18 @@
     <LinearLayout
         style="@style/LayoutMatchWidth"
         android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/size_10"
-        android:layout_marginTop="@dimen/size_10">
+        android:layout_marginBottom="@dimen/size_20"
+        android:layout_marginTop="@dimen/size_20">
 
         <TextView
             style="@style/LayoutWrapContent"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical|right"
             android:text="@{Day}"
             tools:text="THUR"
-            android:textSize="@dimen/font_18"
+            android:textSize="@dimen/font_16"
+            fontPath = "fonts/montserrat/Montserrat_Black.otf"
             android:textStyle="bold"
             android:padding="@dimen/size_5"
             android:textColor="@color/white"
@@ -36,7 +37,7 @@
             android:layout_width="0dp">
 
             <View
-                android:layout_width="4dp"
+                android:layout_width="2dp"
                 android:layout_height="200dp"
                 android:background="@color/faint_orange"
                 android:layout_marginStart="@dimen/size_10"
@@ -53,7 +54,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:paddingStart="5dp">
+                    android:paddingStart="3dp">
 
                     <View
                         android:layout_width="@dimen/size_14"
@@ -75,9 +76,10 @@
                             style="@style/LayoutMatchWidth"
                             tools:text="Cereal"
                             android:textStyle="bold"
-                            android:textSize="@dimen/font_18"
+                            android:textSize="@dimen/font_16"
                             android:ellipsize="end"
                             android:lines="1"
+                            fontPath = "fonts/montserrat/Montserrat_Black.otf"
                             android:text="@{Timetable.breakfast}"
                             android:textColor="@color/white"/>
 
@@ -90,7 +92,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:paddingStart="5dp">
+                    android:paddingStart="3dp">
 
                     <View
                         android:layout_width="@dimen/size_14"
@@ -105,16 +107,17 @@
 
                         <TextView
                             style="@style/LayoutMatchWidth"
-                            android:text="LUNCH"
+                            android:text="@string/lunch"
                             android:textColor="@android:color/darker_gray"/>
 
                         <TextView
                             style="@style/LayoutMatchWidth"
                             tools:text="Rice, Beans &amp; Beaf Stew"
                             android:textStyle="bold"
-                            android:textSize="@dimen/font_18"
+                            android:textSize="@dimen/font_16"
                             android:ellipsize="end"
                             android:lines="1"
+                            fontPath = "fonts/montserrat/Montserrat_Black.otf"
                             android:text="@{Timetable.lunch}"
                             android:textColor="@color/white"/>
 
@@ -127,7 +130,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:paddingStart="5dp">
+                    android:paddingStart="3dp">
 
                     <View
                         android:layout_width="@dimen/size_14"
@@ -149,10 +152,11 @@
                             style="@style/LayoutMatchWidth"
                             tools:text="Egusi Soup &amp; Poundo Yam"
                             android:textStyle="bold"
-                            android:textSize="@dimen/font_18"
+                            android:textSize="@dimen/font_16"
                             android:text="@{Timetable.dinner}"
                             android:textColor="@color/white"
                             android:ellipsize="end"
+                            fontPath = "fonts/montserrat/Montserrat_Black.otf"
                             android:lines="1"/>
 
                     </LinearLayout>

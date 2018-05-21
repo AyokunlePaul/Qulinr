@@ -3,6 +3,9 @@
 
     <data>
         <variable
+            name="Enable"
+            type="Boolean"/>
+        <variable
             name="OnClickListener"
             type="app.gokada.qulinr.screens.splash.activity.SplashActivity.SplashActivityViewClickListener"/>
     </data>
@@ -29,7 +32,13 @@
             android:text="@string/proceed"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
-            android:onClick="@{OnClickListener::onProceedClicked}"/>
+            android:onClick="@{OnClickListener::onProceedClicked}"
+            android:enabled="@{Enable}"/>
+
+        <include
+            layout="@layout/layout_loading"
+            android:id="@+id/loading_link"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

@@ -62,19 +62,19 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.Time
         switch (position){
             default:
             case 0:
-                return "SUN";
+                return "Sun";
             case 1:
-                return "MON";
+                return "Mon";
             case 2:
-                return "TUE";
+                return "Tue";
             case 3:
-                return "WED";
+                return "Wed";
             case 4:
-                return "THUR";
+                return "Thur";
             case 5:
-                return "FRI";
+                return "Fri";
             case 6:
-                return "SAT";
+                return "Sat";
         }
     }
 

@@ -70,6 +70,14 @@ public class SplashVM extends CoreVM {
         dataStore.cacheFullTimetable(response);
     }
 
+    public TimeTableResponse getCachedTimeTableResponse(){
+        return dataStore.getCachedTimetable();
+    }
+
+    public FullTimeTableResponse getCachedFullTimeTableResponse(){
+        return dataStore.getCachedFullTimeTable();
+    }
+
     private Day.DAY getCurrentDay(){
         Log.i("DAY OF WEEK", "" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
         switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
