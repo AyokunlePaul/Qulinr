@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        style="@style/LayoutMatchParent">
+
+        <include
+            layout="@layout/activity_bg"
+            android:id="@+id/bg_link"
+            android:visibility="visible"/>
+
+        <android.support.v7.widget.RecyclerView
+            style="@style/LayoutMatchParent"
+            android:id="@+id/timetable"
+            android:layout_below="@id/toolbar_link"/>
+
+        <include
+            layout="@layout/toolbar_timetable"
+            android:id="@+id/toolbar_link"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/size_20"
+            style="@style/LayoutMatchWidth"/>
+
+    </RelativeLayout>
+</layout>

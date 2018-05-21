@@ -31,7 +31,8 @@
                 android:layout_marginRight="@dimen/size_14"
                 android:background="@drawable/orange_background"
                 android:src="@drawable/ic_date_range"
-                android:scaleType="center"/>
+                android:scaleType="center"
+                android:onClick="@{OnClickListener::onShowCalenderClicked}"/>
 
             <LinearLayout
                 style="@style/LayoutMatchWidth"
@@ -82,6 +83,7 @@
                         fontPath = "fonts/montserrat/Montserrat_Bold.otf"
                         android:layout_marginTop="@dimen/size_minus_10"
                         android:textStyle="bold"
+                        android:gravity="center"
                         android:padding="0dp"
                         android:textSize="30sp"
                         android:textColor="@color/white"
@@ -94,13 +96,15 @@
                     android:orientation="vertical"
                     android:layout_marginTop="30dp"
                     android:paddingLeft="70dp"
-                    android:paddingRight="70dp">
+                    android:paddingRight="70dp"
+                    android:onClick="@{OnClickListener::onSelectOtherFoodSelected}">
 
                     <TextView
                         style="@style/LayoutWrapContent"
                         android:text="@{Timetable}"
                         android:padding="10dp"
                         android:textSize="15sp"
+                        android:gravity="center"
                         android:textColor="@color/white"
                         android:layout_gravity="center_horizontal"
                         android:id="@+id/food_menu"/>
