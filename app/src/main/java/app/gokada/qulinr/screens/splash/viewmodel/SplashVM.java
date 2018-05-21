@@ -1,10 +1,13 @@
 package app.gokada.qulinr.screens.splash.viewmodel;
 
+import android.util.Log;
+
 import java.util.Calendar;
 
 import javax.inject.Inject;
 
 import app.gokada.qulinr.app_core.api.QulinrResponse;
+import app.gokada.qulinr.app_core.api.models.FullTimeTableResponse;
 import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import app.gokada.qulinr.app_core.store.DataStore;
 import app.gokada.qulinr.app_core.view.CoreVM;
@@ -40,12 +43,36 @@ public class SplashVM extends CoreVM {
         });
     }
 
+    public void getFullTimetable(final OnFullTimeTableRetrievedCallback onFullTimeTableRetrievedCallback){
+        dataStore.getFullTimetable().subscribe(new Subscriber<QulinrResponse<FullTimeTableResponse>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                onFullTimeTableRetrievedCallback.onErrorOccurred(e);
+            }
+
+            @Override
+            public void onNext(QulinrResponse<FullTimeTableResponse> fullTimeTableResponseQulinrResponse) {
+                onFullTimeTableRetrievedCallback.onFullTimeTableRetrieved(fullTimeTableResponseQulinrResponse.getData());
+            }
+        });
+    }
+
     public void cacheTimetable(TimeTableResponse response){
         dataStore.cacheTimetable(response);
     }
 
+    public void cacheFullTimeTable(FullTimeTableResponse response){
+        dataStore.cacheFullTimetable(response);
+    }
+
     private Day.DAY getCurrentDay(){
-        switch (Calendar.DAY_OF_WEEK){
+        Log.i("DAY OF WEEK", "" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+        switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
             default:
             case Calendar.SUNDAY:
                 return Day.DAY.SUNDAY;
@@ -66,6 +93,11 @@ public class SplashVM extends CoreVM {
 
     public interface OnTimetableRetrievedCallback{
         void onTimetableRetrieved(TimeTableResponse response);
+        void onErrorOccurred(Throwable throwable);
+    }
+
+    public interface OnFullTimeTableRetrievedCallback{
+        void onFullTimeTableRetrieved(FullTimeTableResponse response);
         void onErrorOccurred(Throwable throwable);
     }
 }

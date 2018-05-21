@@ -1,6 +1,7 @@
 package app.gokada.qulinr.app_core.api;
 
 import app.gokada.qulinr.app_core.api.models.CreateMenuRequest;
+import app.gokada.qulinr.app_core.api.models.FullTimeTableResponse;
 import app.gokada.qulinr.app_core.api.models.NotifySlackRequest;
 import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import retrofit2.http.Body;
@@ -23,4 +24,6 @@ public interface QulinrService {
     @GET("api/v1/timetable/{day}")
     Observable<QulinrResponse<TimeTableResponse>> getTimetableForToday(@Path("day") String day);
 
+    @GET("api/v1/timetable")
+    Observable<QulinrResponse<FullTimeTableResponse>> getFullTimetable();
 }
