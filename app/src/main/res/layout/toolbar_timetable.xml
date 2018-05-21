@@ -33,7 +33,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="@dimen/size_14"
                 android:background="@drawable/orange_background"
-                android:src="@drawable/ic_arrow_back"
+                android:src="@drawable/ic_chevron_left"
                 android:scaleType="center"
                 android:onClick="@{OnClickListener::onBackPressed}"/>
 

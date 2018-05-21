@@ -48,6 +48,8 @@ public class TimetableActivity extends CoreActivity {
     private void initBinding(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_timetable);
         binding.toolbarLink.setOnClickListener(new TimetableActivityClickListener());
+        binding.setOnClickListener(new TimetableActivityClickListener());
+        binding.setVisible(false);
         initScrollListener();
         setupRecyclerView();
     }
@@ -63,6 +65,11 @@ public class TimetableActivity extends CoreActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (manager.findLastVisibleItemPosition() == 6 && dy > 0){
+                    binding.setVisible(true);
+                } else {
+                    binding.setVisible(false);
+                }
             }
         };
     }
@@ -70,8 +77,8 @@ public class TimetableActivity extends CoreActivity {
     private void setupRecyclerView(){
         TimetableAdapter adapter = new TimetableAdapter(getCachedFullTimeTableResponse());
         binding.timetable.setAdapter(adapter);
-        binding.timetable.addOnScrollListener(listener);
         binding.timetable.setLayoutManager(manager);
+        binding.timetable.addOnScrollListener(listener);
         binding.timetable.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
     }
 
@@ -82,6 +89,10 @@ public class TimetableActivity extends CoreActivity {
     public class TimetableActivityClickListener{
         public void onBackPressed(View view){
             finish();
+        }
+
+        public void onScrollToTopPressed(View view){
+            manager.scrollToPosition(0);
         }
     }
 

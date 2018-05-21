@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,7 +49,9 @@ public class SplashActivity extends CoreActivity {
 
         initCallback();
 
-        if (splashVM.getCachedTimeTableResponse() == null){
+        if (splashVM.getCachedFoodType() == null){
+            getTimetableForToday();
+        } else if (splashVM.getCachedFoodType().equals("dinner")){
             getTimetableForToday();
         } else {
             binding.setEnable(true);
@@ -68,20 +71,17 @@ public class SplashActivity extends CoreActivity {
             public void onTimetableRetrieved(TimeTableResponse response) {
                 hasFetchedTimetable = true;
                 splashVM.cacheTimetable(response);
-                if (splashVM.getCachedFullTimeTableResponse() == null){
-                    getFullTimeTable();
-                } else {
-                    binding.loadingLink.getRoot().setVisibility(View.GONE);
-                    binding.setEnable(hasFetchedTimetable);
-                }
+                getFullTimeTable();
             }
 
             @Override
             public void onErrorOccurred(Throwable throwable) {
+                Log.e("TIME TABLE TODAY", throwable.getLocalizedMessage() != null ? throwable.getLocalizedMessage() : "NULL");
                 hasFetchedTimetable = false;
                 binding.loadingLink.getRoot().setVisibility(View.GONE);
-                final Snackbar snackbar = Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_INDEFINITE);
+                final Snackbar snackbar = Snackbar.make(binding.getRoot(), "An error has occurred", Snackbar.LENGTH_INDEFINITE);
                 Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
+
                 TextView text = layout.findViewById(android.support.design.R.id.snackbar_text);
                 text.setTextColor(getResources().getColor(android.R.color.white));
                 text.setEllipsize(TextUtils.TruncateAt.END);
@@ -93,6 +93,9 @@ public class SplashActivity extends CoreActivity {
                         snackbar.dismiss();
                     }
                 });
+
+                showDialog(throwable);
+
                 snackbar.setActionTextColor(getResources().getColor(R.color.white));
                 snackbar.show();
             }
@@ -109,10 +112,12 @@ public class SplashActivity extends CoreActivity {
 
             @Override
             public void onErrorOccurred(Throwable throwable) {
+                Log.e("FULL TIME TABLE", throwable.getLocalizedMessage() != null ? throwable.getLocalizedMessage() : "NULL");
                 hasFetchedFullTimetable = false;
                 binding.loadingLink.getRoot().setVisibility(View.GONE);
-                final Snackbar snackbar = Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_INDEFINITE);
+                final Snackbar snackbar = Snackbar.make(binding.getRoot(), "An error has occurred", Snackbar.LENGTH_INDEFINITE);
                 Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
+
                 TextView text = layout.findViewById(android.support.design.R.id.snackbar_text);
                 text.setTextColor(getResources().getColor(android.R.color.white));
                 text.setEllipsize(TextUtils.TruncateAt.END);
@@ -120,14 +125,30 @@ public class SplashActivity extends CoreActivity {
                 snackbar.setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getTimetableForToday();
+                        getFullTimeTable();
                         snackbar.dismiss();
                     }
                 });
+
+                showDialog(throwable);
+
                 snackbar.setActionTextColor(getResources().getColor(R.color.white));
                 snackbar.show();
             }
         };
+    }
+
+    private void showDialog(Throwable throwable){
+        AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
+        builder.setMessage(throwable.getLocalizedMessage());
+        builder.setCancelable(false);
+        builder.setPositiveButton("OKAY", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private void getTimetableForToday(){
@@ -136,23 +157,16 @@ public class SplashActivity extends CoreActivity {
     }
 
     private void getFullTimeTable(){
+        binding.loadingLink.getRoot().setVisibility(View.VISIBLE);
         splashVM.getFullTimetable(fullTimeTableRetrievedCallback);
     }
 
     public class SplashActivityViewClickListener{
         public void onProceedClicked(View view){
-            if (!(hasFetchedTimetable && hasFetchedFullTimetable)){
-                AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
-                builder.setMessage("App needs to connect to internet and fetch\nthe timetable for today");
-                builder.setPositiveButton("OKAY", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                        startActivity(getIntent());
-                    }
-                });
-                return;
-            }
+//            if (!(hasFetchedTimetable && hasFetchedFullTimetable)){
+//
+//                return;
+//            }
             Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
             startActivity(intent);
         }

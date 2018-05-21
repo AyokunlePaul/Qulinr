@@ -178,16 +178,12 @@ public class HomeActivity extends CoreActivity {
 
     private void showHelloLayout(){
         hideAllViews();
-        Log.i("Hello Layout(Breakfast)", timeTable.getBreakfast());
-        Log.i("Hello Layout(Lunch)", timeTable.getLunch());
-        Log.i("Hello Layout(Dinner)", timeTable.getDinner());
         binding.breakfastLink.getRoot().setVisibility(View.VISIBLE);
         if (viewModel.getCachedFoodType() == null || viewModel.getCachedFoodType().equals("dinner")){
             foodType = "breakfast";
             globalFood = timeTable.getBreakfast();
             binding.breakfastLink.setTimetable(globalFood);
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
-//            Log.i("Hello Layout(Breakfast)", globalFood);
             return;
         }
         if (viewModel.getCachedFoodType().equals("breakfast")){
@@ -195,7 +191,6 @@ public class HomeActivity extends CoreActivity {
             globalFood = timeTable.getLunch();
             binding.breakfastLink.setTimetable(globalFood);
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
-//            Log.i("Hello Layout(Lunch)", globalFood);
             return;
         }
         if (viewModel.getCachedFoodType().equals("lunch")){
@@ -203,7 +198,6 @@ public class HomeActivity extends CoreActivity {
             globalFood = timeTable.getDinner();
             binding.breakfastLink.setTimetable(globalFood);
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
-//            Log.i("Hello Layout(Dinner)", globalFood);
         }
     }
 
