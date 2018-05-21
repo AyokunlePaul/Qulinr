@@ -5,7 +5,9 @@ import javax.inject.Inject;
 import app.gokada.qulinr.app_core.api.QulinrResponse;
 import app.gokada.qulinr.app_core.api.QulinrService;
 import app.gokada.qulinr.app_core.api.models.CreateMenuRequest;
+import app.gokada.qulinr.app_core.api.models.FullTimeTableResponse;
 import app.gokada.qulinr.app_core.api.models.NotifySlackRequest;
+import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import retrofit2.Retrofit;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,4 +32,13 @@ public class OnlineStore {
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<QulinrResponse<TimeTableResponse>> getTimetableForToday(String day){
+        return service.getTimetableForToday(day)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<QulinrResponse<FullTimeTableResponse>> getFullTimetable(){
+        return service.getFullTimetable()
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 }

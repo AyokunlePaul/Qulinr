@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="Day"
+            type="String"/>
+        <variable
+            name="Timetable"
+            type="app.gokada.qulinr.app_core.api.models.TimeTableResponse"/>
+    </data>
+
+    <RelativeLayout
+        style="@style/LayoutMatchWidth"
+        android:padding="@dimen/size_10">
+
+        <LinearLayout
+            style="@style/LayoutMatchWidth"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/size_20"
+            android:paddingEnd="@dimen/size_10"
+            android:paddingStart="@dimen/size_10"
+            android:id="@+id/timetable_layout">
+
+            <TextView
+                style="@style/LayoutWrapContent"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical|right"
+                android:text="@{Day}"
+                tools:text="THUR"
+                android:textSize="@dimen/font_16"
+                fontPath = "fonts/montserrat/Montserrat_Black.otf"
+                android:textStyle="bold"
+                android:padding="@dimen/size_5"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/size_10"/>
+
+            <RelativeLayout
+                style="@style/LayoutMatchWidth"
+                android:layout_weight="9"
+                android:layout_width="0dp">
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="200dp"
+                    android:background="@color/faint_orange"
+                    android:layout_marginStart="@dimen/size_10"
+                    android:id="@+id/dummy_view"/>
+
+                <LinearLayout
+                    style="@style/LayoutMatchWidth"
+                    android:layout_alignTop="@id/dummy_view"
+                    android:layout_alignBottom="@id/dummy_view"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/LayoutMatchWidth"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingStart="3dp">
+
+                        <View
+                            android:layout_width="@dimen/size_14"
+                            android:layout_height="@dimen/size_14"
+                            android:background="@drawable/round_orange_gradient"/>
+
+                        <LinearLayout
+                            style="@style/LayoutMatchWidth"
+                            android:orientation="vertical"
+                            android:padding="@dimen/size_10"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                style="@style/LayoutMatchWidth"
+                                android:text="BREAKFAST"
+                                android:textColor="@android:color/darker_gray"/>
+
+                            <TextView
+                                style="@style/LayoutMatchWidth"
+                                tools:text="Cereal"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/font_16"
+                                android:ellipsize="end"
+                                android:lines="1"
+                                fontPath = "fonts/montserrat/Montserrat_Black.otf"
+                                android:text="@{Timetable.breakfast}"
+                                android:textColor="@color/white"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LayoutMatchWidth"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingStart="3dp">
+
+                        <View
+                            android:layout_width="@dimen/size_14"
+                            android:layout_height="@dimen/size_14"
+                            android:background="@drawable/round_orange_gradient"/>
+
+                        <LinearLayout
+                            style="@style/LayoutMatchWidth"
+                            android:orientation="vertical"
+                            android:padding="@dimen/size_10"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                style="@style/LayoutMatchWidth"
+                                android:text="@string/lunch"
+                                android:textColor="@android:color/darker_gray"/>
+
+                            <TextView
+                                style="@style/LayoutMatchWidth"
+                                tools:text="Rice, Beans &amp; Beaf Stew"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/font_16"
+                                android:ellipsize="end"
+                                android:lines="1"
+                                fontPath = "fonts/montserrat/Montserrat_Black.otf"
+                                android:text="@{Timetable.lunch}"
+                                android:textColor="@color/white"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LayoutMatchWidth"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingStart="3dp">
+
+                        <View
+                            android:layout_width="@dimen/size_14"
+                            android:layout_height="@dimen/size_14"
+                            android:background="@drawable/round_orange_gradient"/>
+
+                        <LinearLayout
+                            style="@style/LayoutMatchWidth"
+                            android:orientation="vertical"
+                            android:padding="@dimen/size_10"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                style="@style/LayoutMatchWidth"
+                                android:text="DINNER"
+                                android:textColor="@android:color/darker_gray"/>
+
+                            <TextView
+                                style="@style/LayoutMatchWidth"
+                                tools:text="Egusi Soup &amp; Poundo Yam"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/font_16"
+                                android:text="@{Timetable.dinner}"
+                                android:textColor="@color/white"
+                                android:ellipsize="end"
+                                fontPath = "fonts/montserrat/Montserrat_Black.otf"
+                                android:lines="1"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View
+            style="@style/LayoutMatchWidth"
+            android:layout_height="1dp"
+            android:layout_below="@id/timetable_layout"
+            android:background="@android:color/darker_gray"
+            android:layout_marginStart="@dimen/size_20"
+            android:layout_marginEnd="@dimen/size_20"/>
+
+    </RelativeLayout>
+</layout>

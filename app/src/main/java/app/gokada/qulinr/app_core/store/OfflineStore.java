@@ -6,8 +6,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import app.gokada.qulinr.app_core.api.models.FullTimeTableResponse;
+import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import app.gokada.qulinr.app_core.store.localdatabase.RealmManager;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmFoodType;
+import app.gokada.qulinr.app_core.store.realmmodel.RealmFullTimeTable;
+import app.gokada.qulinr.app_core.store.realmmodel.RealmTimeTable;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmToken;
 import app.gokada.qulinr.app_core.store.realmmodel.RealmWorkId;
 import app.gokada.qulinr.global.ModelMapper;
@@ -18,7 +22,6 @@ public class OfflineStore {
     private Context context;
     RealmManager realmManager;
     ModelMapper modelMapper;
-
 
     @Inject
     public OfflineStore(RealmManager realmManager, Context context, ModelMapper modelMapper){
@@ -54,6 +57,7 @@ public class OfflineStore {
     }
 
     public void cacheToken(String token){
+        realmManager.deleteAllOf(RealmToken.class);
         RealmToken realmToken = modelMapper.map(token);
         cache(realmToken);
     }
@@ -88,6 +92,24 @@ public class OfflineStore {
         }
     }
 
+    public TimeTableResponse getCachedTimetable(){
+        List<RealmTimeTable> realmTimeTables = realmManager.findByClass(RealmTimeTable.class);
+
+        if (realmTimeTables.size() > 0){
+            return modelMapper.mapRealmTimetableToTimetableResponse(realmTimeTables.get(0));
+        }
+        return null;
+    }
+
+    public FullTimeTableResponse getCachedFullTimetable(){
+        List<RealmFullTimeTable> realmFullTimeTables = realmManager.findByClass(RealmFullTimeTable.class);
+
+        if (realmFullTimeTables.size() > 0){
+            return modelMapper.mapRealmFullTimeTableToFullTimeTableResponse(realmFullTimeTables.get(0));
+        }
+        return null;
+    }
+
     public void cacheFoodType(String foodType){
         realmManager.deleteAllOf(RealmFoodType.class);
         RealmFoodType counter = modelMapper.mapStringToRealmFoodType(foodType);
@@ -97,6 +119,18 @@ public class OfflineStore {
     public void cacheWorkId(String workId){
         RealmWorkId realmWorkId = modelMapper.mapIdToRealmWorkId(workId);
         cache(realmWorkId);
+    }
+
+    public void cacheTimetable(TimeTableResponse response){
+        realmManager.deleteAllOf(RealmTimeTable.class);
+        RealmTimeTable table = modelMapper.mapTimeTableResponseToRealmTimeTable(response);
+        cache(table);
+    }
+
+    public void cacheFullTimetable(FullTimeTableResponse response){
+        realmManager.deleteAllOf(RealmFullTimeTable.class);
+        RealmFullTimeTable table = modelMapper.mapFullTimeTableResponseToRealmFullTimeTable(response);
+        cache(table);
     }
 
 }

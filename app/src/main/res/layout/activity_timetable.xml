@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="Visible"
+            type="Boolean"/>
+        <variable
+            name="OnClickListener"
+            type="app.gokada.qulinr.screens.timetable.activity.TimetableActivity.TimetableActivityClickListener"/>
+    </data>
+
+    <RelativeLayout
+        style="@style/LayoutMatchParent">
+
+        <include
+            layout="@layout/activity_bg"
+            android:id="@+id/bg_link"
+            android:visibility="visible"/>
+
+        <android.support.v7.widget.RecyclerView
+            style="@style/LayoutMatchParent"
+            android:id="@+id/timetable"
+            android:layout_below="@id/toolbar_link"
+            android:layout_above="@id/scroll_to_top"/>
+
+        <include
+            layout="@layout/toolbar_timetable"
+            android:id="@+id/toolbar_link"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/size_20"
+            style="@style/LayoutMatchWidth"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/size_14"
+            android:background="@drawable/orange_background"
+            android:src="@drawable/ic_arrow_up"
+            android:scaleType="center"
+            android:onClick="@{OnClickListener::onScrollToTopPressed}"
+            android:layout_margin="@dimen/size_10"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/scroll_to_top"
+            android:visibility="@{safeUnbox(Visible) ? View.VISIBLE : View.GONE}"/>
+
+    </RelativeLayout>
+</layout>

@@ -25,18 +25,21 @@ import app.gokada.qulinr.QulinrApplication;
 import app.gokada.qulinr.R;
 import app.gokada.qulinr.app_core.api.QulinrResponse;
 import app.gokada.qulinr.app_core.api.models.CreateMenuRequest;
+import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import app.gokada.qulinr.app_core.dagger.components.QulinrMainComponent;
 import app.gokada.qulinr.app_core.models.TimeModel;
 import app.gokada.qulinr.app_core.view.CoreActivity;
 import app.gokada.qulinr.databinding.ActivityHomeBinding;
 import app.gokada.qulinr.databinding.LayoutTimeSelectorBinding;
 import app.gokada.qulinr.receiver.NotificationPublisher;
+import app.gokada.qulinr.screens.timetable.activity.TimetableActivity;
 
 public class HomeActivity extends CoreActivity {
 
     private ActivityHomeBinding binding;
     private QulinrMainComponent component;
     private TimeModel globalModel;
+    private String globalFood;
 
     private String foodType;
 
@@ -46,12 +49,16 @@ public class HomeActivity extends CoreActivity {
     @Inject
     HomeActivityVM viewModel;
 
+    private TimeTableResponse timeTable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         component = QulinrApplication.get(this).getComponent();
         component.inject(this);
+
+        timeTable = viewModel.getCachedTimetable();
 
         initBinding();
         initCallback();
@@ -156,8 +163,8 @@ public class HomeActivity extends CoreActivity {
                     Toast.makeText(HomeActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(HomeActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
-                    viewModel.deleteAll();
                     viewModel.cacheFoodType(foodType);
+                    viewModel.deleteToken();
                     showHelloLayout();
                 }
             }
@@ -174,16 +181,22 @@ public class HomeActivity extends CoreActivity {
         binding.breakfastLink.getRoot().setVisibility(View.VISIBLE);
         if (viewModel.getCachedFoodType() == null || viewModel.getCachedFoodType().equals("dinner")){
             foodType = "breakfast";
+            globalFood = timeTable.getBreakfast();
+            binding.breakfastLink.setTimetable(globalFood);
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
             return;
         }
         if (viewModel.getCachedFoodType().equals("breakfast")){
             foodType = "lunch";
+            globalFood = timeTable.getLunch();
+            binding.breakfastLink.setTimetable(globalFood);
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
             return;
         }
         if (viewModel.getCachedFoodType().equals("lunch")){
             foodType = "dinner";
+            globalFood = timeTable.getDinner();
+            binding.breakfastLink.setTimetable(globalFood);
             binding.breakfastLink.setFoodtype(foodType.toUpperCase() + "?");
         }
     }
@@ -206,11 +219,7 @@ public class HomeActivity extends CoreActivity {
         binding.loadingLink.getRoot().setVisibility(View.GONE);
     }
 
-    private void deleteWorkId(){
-        viewModel.deleteWorkId();
-    }
-
-    private void showDialog(){
+    private void showTimeDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final LayoutTimeSelectorBinding recyclerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_time_selector, null, false);
         builder.setView(recyclerBinding.getRoot());
@@ -242,6 +251,37 @@ public class HomeActivity extends CoreActivity {
         dialog.show();
     }
 
+    private void showFoodSelectionDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final LayoutTimeSelectorBinding recyclerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_time_selector, null, false);
+        builder.setView(recyclerBinding.getRoot());
+        builder.setTitle("Select Food");
+        builder.setPositiveButton("DISMISS", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                FoodAdapter adapter = new FoodAdapter(viewModel.getListOfFoodFromFullTimeTableResponse());
+                adapter.setOnTimeSelectedListener(new FoodAdapter.OnFoodSelected() {
+                    @Override
+                    public void onFoodSelected(String food) {
+                        globalFood = food;
+                        binding.breakfastLink.setTimetable(globalFood);
+                        dialog.dismiss();
+                    }
+                });
+                recyclerBinding.timeList.setAdapter(adapter);
+                recyclerBinding.timeList.setLayoutManager(new GridLayoutManager(HomeActivity.this, 3));
+            }
+        });
+        dialog.show();
+    }
+
     public class HomeActivityViewClickListeners{
         public void onCreateMenuClicked(View view){
             showLoading();
@@ -252,7 +292,7 @@ public class HomeActivity extends CoreActivity {
             viewModel.createMenu(menuRequest, menuCreatedCallback);
         }
         public void onSelectTimeClicked(View view){
-            showDialog();
+            showTimeDialog();
         }
         public void onFoodIsReadyClicked(View view){
             showLoading();
@@ -264,6 +304,13 @@ public class HomeActivity extends CoreActivity {
         public void onContinueCookingClicked(View view){
             createAlarm(globalModel.timeInMills);
             showCompletedLayout();
+        }
+        public void onShowCalenderClicked(View view){
+            Intent intent = new Intent(HomeActivity.this, TimetableActivity.class);
+            startActivity(intent);
+        }
+        public void onSelectOtherFoodSelected(View view){
+            showFoodSelectionDialog();
         }
     }
 
