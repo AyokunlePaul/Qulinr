@@ -20,7 +20,6 @@ import app.gokada.qulinr.app_core.dagger.components.QulinrMainComponent;
 import app.gokada.qulinr.app_core.view.CoreActivity;
 import app.gokada.qulinr.databinding.ActivitySplashBinding;
 import app.gokada.qulinr.screens.home.HomeActivity;
-import app.gokada.qulinr.screens.home.HomeActivityVM;
 import app.gokada.qulinr.screens.splash.viewmodel.SplashVM;
 
 public class SplashActivity extends CoreActivity {
@@ -67,6 +66,7 @@ public class SplashActivity extends CoreActivity {
             @Override
             public void onErrorOccurred(Throwable throwable) {
                 hasFetchedTimetable = false;
+
                 final Snackbar snackbar = Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_INDEFINITE);
                 Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
                 TextView text = layout.findViewById(android.support.design.R.id.snackbar_text);
