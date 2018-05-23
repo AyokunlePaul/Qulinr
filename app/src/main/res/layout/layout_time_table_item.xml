@@ -33,7 +33,6 @@
                 android:textSize="@dimen/font_16"
                 fontPath = "fonts/montserrat/Montserrat_Black.otf"
                 android:textStyle="bold"
-                android:padding="@dimen/size_5"
                 android:textColor="@color/white"
                 android:layout_marginStart="@dimen/size_10"/>
 
