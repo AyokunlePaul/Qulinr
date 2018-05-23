@@ -57,6 +57,8 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.Holder> {
     interface OnTimeSelected{
         void onTimeSelected(TimeModel model);
     }
+
+
     public class Holder extends RecyclerView.ViewHolder {
 
         private TimeListItemBinding binding;
