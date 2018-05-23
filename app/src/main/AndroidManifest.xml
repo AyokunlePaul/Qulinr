@@ -15,15 +15,18 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <activity android:name=".screens.splash.activity.SplashActivity"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".screens.home.HomeActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".screens.timetable.activity.TimetableActivity" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".screens.timetable.activity.TimetableActivity"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name=".receiver.NotificationPublisher" />
 
