@@ -21,6 +21,7 @@ import app.gokada.qulinr.app_core.api.models.TimeTableResponse;
 import app.gokada.qulinr.app_core.dagger.components.QulinrMainComponent;
 import app.gokada.qulinr.app_core.view.CoreActivity;
 import app.gokada.qulinr.databinding.ActivitySplashBinding;
+import app.gokada.qulinr.global.Day;
 import app.gokada.qulinr.screens.home.HomeActivity;
 import app.gokada.qulinr.screens.splash.viewmodel.SplashVM;
 
@@ -55,6 +56,10 @@ public class SplashActivity extends CoreActivity {
             getTimetableForToday();
         } else {
             binding.setEnable(true);
+        }
+
+        if (splashVM.getCurrentDay().equals(Day.DAY.SUNDAY)){
+            splashVM.cacheFoodType("breakfast");
         }
 
         overridePendingTransition(android.R.transition.slide_left, android.R.transition.slide_right);

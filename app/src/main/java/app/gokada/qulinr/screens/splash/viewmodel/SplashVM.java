@@ -78,11 +78,15 @@ public class SplashVM extends CoreVM {
         return dataStore.getCachedFullTimeTable();
     }
 
+    public void cacheFoodType(String foodType){
+        dataStore.cacheFoodType(foodType);
+    }
+
     public String getCachedFoodType(){
         return dataStore.getCachedFoodType();
     }
 
-    private Day.DAY getCurrentDay(){
+    public Day.DAY getCurrentDay(){
         Log.i("DAY OF WEEK", "" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
         switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
             default:
